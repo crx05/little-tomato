@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">#b94c35</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">#f8f7f3</item>
+        <item name="android:navigationBarColor">#f8f7f3</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
+    <style name="AppTheme" parent="AppTheme.Base" />
+    <style name="AppTheme.Launch" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#f8f7f3</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/tomato_logo</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
+</resources>

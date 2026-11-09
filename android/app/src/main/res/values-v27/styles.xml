@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- android:windowLightNavigationBar was added in API 27; keep it out of the
+         base style so API 26 devices still use the shared AppTheme.Base. -->
+    <style name="AppTheme" parent="AppTheme.Base">
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+</resources>

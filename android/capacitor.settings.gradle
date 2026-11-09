@@ -1,0 +1,3 @@
+// cap sync android updates this file from the installed Capacitor dependencies.
+include ':capacitor-android'
+project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android/capacitor')

@@ -1,0 +1,11 @@
+{
+  "appId": "com.littletomato.focus",
+  "appName": "小番茄",
+  "webDir": "www",
+  "server": { "androidScheme": "https" },
+  "android": {
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false,
+    "backgroundColor": "#f8f7f3"
+  }
+}

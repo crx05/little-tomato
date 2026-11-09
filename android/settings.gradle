@@ -1,0 +1,6 @@
+pluginManagement {
+    repositories { google(); mavenCentral(); gradlePluginPortal() }
+}
+rootProject.name = 'LittleTomato'
+include ':app'
+apply from: 'capacitor.settings.gradle'

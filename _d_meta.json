@@ -1,0 +1,23 @@
+{
+  "type": "design",
+  "designSystems": [],
+  "primaryDesignSystem": null,
+  "assets": {
+    "小番茄 · 作业专注时钟": {
+      "versions": [
+        {
+          "path": "index.html",
+          "createdAt": "2026-11-06T07:38:06.530Z",
+          "status": "needs-review",
+          "viewport": {
+            "width": 1440,
+            "height": 1100
+          },
+          "subtitle": "专注计时、作业清单与安卓息屏提醒设置"
+        }
+      ]
+    }
+  },
+  "createdAt": "2026-11-06T07:38:06.531Z",
+  "updatedAt": "2026-11-06T08:31:34.612Z"
+}

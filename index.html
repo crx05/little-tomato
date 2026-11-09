@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f7f3">
+  <meta name="description" content="小番茄，陪你一小步一小步完成作业。适合小学生的专注时钟、休息提醒与作业清单。">
+  <title>小番茄 · 一起专心长大</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="core.js" defer></script>
+  <script src="platform.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Design: a quiet, warm study desk. Large clock, concrete next action, no invented progress or competitive rewards. -->
+  <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7v5l3 2"></path></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M19 4C8 2 2 8 6 16c8 4 14-2 13-12Z M5 20l10-10"></path></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"></path><rect x="8" y="4" width="4" height="6" rx="1"></rect><rect x="14" y="14" width="4" height="6" rx="1"></rect></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><path d="m11 5-5 4H3v6h3l5 4V5ZM15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"></path></symbol>
+    <symbol id="i-mute" viewBox="0 0 24 24"><path d="m11 5-5 4H3v6h3l5 4V5Zm5 4 5 6m0-6-5 6"></path></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4"></path></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"></path></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"></path></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6C9 3 5 4 3 4v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-2 0-6-1-9 2Zm0 0v14"></path></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"></path></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"></path></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1 1m12 12 1 1M5 19l1-1M18 6l1-1"></path></symbol>
+  </defs></svg>
+  <header class="site-header">
+    <a class="brand" href="#focus" aria-label="小番茄首页"><span class="tomato brand-tomato" aria-hidden="true"><i></i></span><span>小番茄<small>一起专心长大</small></span></a>
+    <nav class="main-nav" aria-label="主导航"><button class="nav-item active" data-view="focus" aria-current="page"><svg class="icon"><use href="#i-clock"></use></svg>专注时钟</button><button class="nav-item" data-view="harvest"><svg class="icon"><use href="#i-leaf"></use></svg>我的收获</button></nav>
+    <div class="header-tools"><button id="sound-button" class="icon-button" aria-label="关闭提醒声音" aria-pressed="true" title="提醒声音"><svg class="icon"><use href="#i-sound"></use></svg></button><span class="tool-separator"></span><button id="settings-button" class="settings-button"><svg class="icon"><use href="#i-settings"></use></svg><span>时钟设置</span></button></div>
+  </header>
+  <main>
+    <section id="focus-view" data-screen-label="专注时钟">
+      <div class="page-heading"><div><div class="eyebrow"><span class="tiny-sun"></span> 一小步，也很了不起</div><h1>把专心的时间，<span>种成小番茄。</span></h1><p>一次只做一件事，写作业也可以从容一点。</p></div><div class="date-tag"><svg class="icon"><use href="#i-sun"></use></svg><span id="today-date"></span></div></div>
+      <div class="workspace">
+        <section class="timer-card" aria-label="番茄时钟">
+          <div class="timer-top"><span class="section-label"><span class="status-dot"></span><span id="timer-state">准备好，就出发</span></span><button id="zen-button" class="icon-button" aria-label="进入沉浸模式" title="沉浸模式"><svg class="icon"><use href="#i-expand"></use></svg></button></div>
+          <div class="mode-tabs" role="group" aria-label="计时模式"><button data-mode="focus" class="active" aria-pressed="true">专心写作业</button><button data-mode="short" aria-pressed="false">短休息</button><button data-mode="long" aria-pressed="false">长休息</button></div>
+          <div class="clock-wrap"><div class="clock-ticks"></div><div class="clock-ring" id="clock-ring"></div><div class="clock-face"><div class="tomato clock-tomato" aria-hidden="true"><i></i><span class="tomato-face"></span></div><div class="timer-number" id="timer-number" role="timer" aria-live="off" aria-label="剩余20分钟">20:00</div><div id="clock-caption" class="clock-caption">每一小段专注，都算数</div></div><span class="ring-dot" aria-hidden="true"></span></div>
+          <div class="duration-picker" id="duration-picker" role="group" aria-label="专注时长"><span>专注时长</span><button data-duration="15" aria-pressed="false">15 分钟</button><button data-duration="20" class="selected" aria-pressed="true">20 分钟</button><button data-duration="25" aria-pressed="false">25 分钟</button><button id="custom-duration">自定义</button></div>
+          <div class="current-task"><svg class="icon"><use href="#i-book"></use></svg><span id="current-task-label">本轮：自由专注，也很棒</span></div>
+          <div class="timer-actions"><button id="start-button" class="primary-button"><span class="play-icon" aria-hidden="true"></span><span id="start-label">开始专注</span></button><button id="reset-button" class="reset-button" aria-label="重新计时" title="重新计时"><svg class="icon"><use href="#i-reset"></use></svg></button></div>
+          <p class="timer-footnote" id="timer-footnote"><span class="small-check">✓</span> 专注结束后，记得休息 5 分钟</p>
+          <button id="native-reminder-status" class="native-reminder-status" hidden><span class="status-dot"></span><span id="native-status-label" role="status">正在读取手机提醒设置…</span><span aria-hidden="true">›</span></button>
+          <button id="exit-zen" class="text-button" hidden>退出沉浸模式 <span>Esc</span></button>
+        </section>
+        <aside class="right-column">
+          <section class="homework-card panel"><div class="card-title"><h2>今天的小任务<span class="task-count" id="task-count">0 / 0</span></h2><span class="small-label">一步一步来</span></div><p class="card-subtitle">选一项作业，让专注有个小目标。</p>
+            <div class="task-list" id="task-list"></div>
+            <div class="empty-tasks" id="empty-tasks"><span class="empty-book"><svg class="icon"><use href="#i-book"></use></svg></span><strong>从一件小事开始吧</strong><p>比如「完成数学练习第 12 页」<br>小小的目标，更容易完成。</p></div>
+            <form id="task-form" class="task-form"><label class="sr-only" for="task-title">作业内容</label><input id="task-title" maxlength="80" placeholder="写下你的下一件小任务…" autocomplete="off" required><div class="task-form-bottom"><label class="sr-only" for="task-subject">学科</label><select id="task-subject"><option>数学</option><option>语文</option><option>英语</option><option>其他</option></select><button type="submit" class="add-button"><svg class="icon"><use href="#i-plus"></use></svg>添加任务</button></div></form>
+          </section>
+          <section class="ready-card"><div class="ready-heading"><span class="leaf-stamp"><svg class="icon"><use href="#i-leaf"></use></svg></span><div><span class="eyebrow">给专心一点小帮助</span><h2>开始前，准备一下</h2></div></div><ul><li><span>01</span>把课本、铅笔和水杯准备好</li><li><span>02</span>让玩具和手机先休息一下</li><li><span>03</span>遇到难题先做标记，继续往下写</li></ul><div class="ready-bottom">不用一下子做完，先专心这一小段。</div></section>
+        </aside>
+      </div>
+      <section class="harvest-strip" aria-label="今日专注成果"><div class="harvest-intro"><span class="harvest-icon"><svg class="icon"><use href="#i-leaf"></use></svg></span><div><h2>今天的番茄小花园</h2><p id="garden-message">每专注一轮，就收获一颗小番茄。</p></div></div><div class="garden" id="garden" aria-label="今日番茄进度"></div><div class="strip-stat"><strong id="today-minutes">0<small> 分钟</small></strong><span>今天认真投入的时间</span></div><button class="harvest-link text-button" data-view="harvest">看看收获<svg class="icon"><use href="#i-arrow"></use></svg></button></section>
+      <p class="gentle-footer">慢慢来，你正在养成一个很棒的习惯。<span>小番茄，陪你一起。</span></p>
+    </section>
+    <section id="harvest-view" data-screen-label="我的收获" hidden>
+      <div class="page-heading"><div><div class="eyebrow">每一次认真，都留下了痕迹</div><h1>看看你的<span>专注小收获。</span></h1><p>不和别人比，给今天的自己一点鼓励。</p></div><button class="secondary-button" data-view="focus">继续种番茄<svg class="icon"><use href="#i-arrow"></use></svg></button></div>
+      <div class="summary-grid"><div class="summary-card"><span>今天收获的番茄</span><strong id="harvest-count">0<small> 颗</small></strong><p id="harvest-goal">今天的小目标：4 颗</p></div><div class="summary-card"><span>今天专注的时间</span><strong id="harvest-minutes">0<small> 分钟</small></strong><p>每一小段，都是进步</p></div><div class="summary-card"><span>累计专注的日子</span><strong id="harvest-days">0<small> 天</small></strong><p>一点一点，把习惯养大</p></div></div>
+      <div class="history-grid"><section class="panel week-panel"><div class="card-title"><h2>这一周的小脚印</h2><span class="small-label">专注分钟</span></div><div class="week-chart" id="week-chart"></div><p class="chart-note">没有收获的日子也没关系，随时可以重新开始。</p></section><section class="panel history-panel"><div class="card-title"><h2>今天的专注记录</h2><span id="history-count" class="small-label">0 次专注</span></div><div id="history-list"></div></section></div>
+      <p class="gentle-footer">记录保存在当前浏览器中，陪你看见一点一滴的进步。</p>
+    </section>
+    <div id="storage-notice" class="storage-notice" role="status" hidden>浏览器暂时无法保存记录，本次仍可正常计时。请保持页面打开。</div>
+  </main>
+  <dialog id="settings-dialog" aria-labelledby="settings-title"><form id="settings-form"><div class="dialog-top"><div><span class="eyebrow">找到适合自己的节奏</span><h2 id="settings-title">时钟设置</h2></div><button type="button" class="icon-button" data-close="settings-dialog" aria-label="关闭设置"><svg class="icon"><use href="#i-close"></use></svg></button></div><p class="dialog-intro">可以从 15 分钟开始，慢慢找到舒服的专注时长。</p><div class="settings-grid"><label>专注时长<span class="number-field"><input name="focus" type="number" min="1" max="60" required><span>分钟</span></span></label><label>短休息<span class="number-field"><input name="short" type="number" min="1" max="30" required><span>分钟</span></span></label><label>长休息<span class="number-field"><input name="long" type="number" min="1" max="60" required><span>分钟</span></span></label><label>每天的小目标<span class="number-field"><input name="goal" type="number" min="1" max="12" required><span>颗番茄</span></span></label></div><p class="field-note">每完成 4 轮专注，安排一次长休息。正在进行的一轮保持原时长。</p><div class="setting-row"><div><strong>结束提示音</strong><span>一段轻柔的铃声，提醒你该休息了</span></div><label class="switch"><input type="checkbox" name="sound" aria-label="结束提示音"><span></span></label></div><div class="setting-row"><div><strong>桌面提醒</strong><span id="notification-hint">切换到其他页面，也能收到提醒</span></div><label class="switch"><input type="checkbox" name="notifications" aria-label="桌面提醒"><span></span></label></div><div class="settings-helper"><button type="button" id="test-sound" class="text-button">试听提示音</button><span>请保持网页打开，让小番茄陪着你。</span></div><button type="submit" class="primary-button wide-button">保存设置</button></form></dialog>
+  <dialog id="completion-dialog" aria-labelledby="completion-title"><div class="completion-content"><div class="tomato celebration-tomato" aria-hidden="true"><i></i><span class="tomato-face"></span></div><div class="eyebrow" id="completion-eyebrow">认真专注，值得一颗小番茄</div><h2 id="completion-title">这一轮，你做到了！</h2><p id="completion-description"></p><button id="complete-task-button" class="task-finish-button"><svg class="icon"><use href="#i-check"></use></svg><span>这项作业也写完啦</span></button><div class="break-suggestions" id="break-suggestions"><span>喝口水</span><i></i><span>伸个懒腰</span><i></i><span>看看远处</span></div><button id="next-round-button" class="primary-button wide-button">开始休息</button><button id="dismiss-completion" class="text-button">先停在这里</button></div></dialog>
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title"><div class="confirm-content"><h2 id="confirm-title">要重新开始这一轮吗？</h2><p id="confirm-description">这一轮还没完成，不会计入收获。已经完成的番茄都会保留。</p><div class="confirm-actions"><button class="secondary-button" id="confirm-cancel">继续当前一轮</button><button class="primary-button" id="confirm-accept">重新开始</button></div></div></dialog>
+  <dialog id="reminder-dialog" aria-labelledby="reminder-title">
+    <div class="dialog-top"><div><span class="eyebrow">把提醒交给手机</span><h2 id="reminder-title">息屏，也能提醒你</h2></div><button type="button" class="icon-button" data-close="reminder-dialog" aria-label="关闭提醒设置"><svg class="icon"><use href="#i-close"></use></svg></button></div>
+    <p class="dialog-intro">允许下面两项设置，放下手机专心写作业。到点后，小番茄会发出一次铃声和振动。</p>
+    <div class="native-permission-row"><div><strong>1. 允许通知</strong><p id="native-notification-detail">让提醒显示在锁屏和通知栏</p></div><button type="button" id="native-notification-button" class="secondary-button">允许通知</button></div>
+    <div class="native-permission-row"><div><strong>2. 允许准时提醒</strong><p id="native-exact-detail">在系统中开启“闹钟和提醒”</p></div><button type="button" id="native-exact-button" class="secondary-button">去开启</button></div>
+    <p id="native-reminder-error" class="native-error" role="status" hidden></p>
+    <p class="native-help">安装后可离线使用。声音和振动以手机通知设置为准；若提醒被省电设置限制，请允许小番茄后台运行。</p>
+    <button type="button" id="native-test-button" class="primary-button wide-button">测试铃声和振动</button>
+    <button type="button" id="native-retry-button" class="secondary-button wide-button" hidden>重新读取手机记录</button>
+    <button type="button" id="native-reminder-dismiss" class="text-button wide-button">先使用前台计时</button>
+  </dialog>
+  <div id="toast" role="status" class="toast" hidden></div>
+  <noscript><div class="noscript-note">请开启浏览器 JavaScript，才能使用小番茄计时。</div></noscript>
+</body>
+</html>
